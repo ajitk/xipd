@@ -10,8 +10,8 @@ exports.Server = class Server extends dnsserver.Server
 
   constructor: (domain, @rootAddress) ->
     super
-    @domain = domain.toLowerCase()
-    @soa = createSOA @domain
+    @_domain = domain.toLowerCase()
+    @soa = createSOA @_domain
     @on "request", @handleRequest
 
   handleRequest: (req, res) =>
@@ -28,7 +28,7 @@ exports.Server = class Server extends dnsserver.Server
     res.send()
 
   extractSubdomain: (name) ->
-    Subdomain.extract name, @domain, @rootAddress
+    Subdomain.extract name, @_domain, @rootAddress
 
   isARequest = (question) ->
     question.type is NS_T_A and question.class is NS_C_IN
